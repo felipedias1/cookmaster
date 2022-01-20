@@ -53,9 +53,20 @@ const updateRecipesByIdServ = async (body, id, userId, role) => {
   return updatedRecipeById;
 };
 
+const deleteRecipesByIdServ = async (id, userId, role) => {
+  const errorOne = { status: 404, message: { message: 'Invalid entries. Try again.' } };
+  const errorTwo = { status: 404, message: { message: 'recipe not found' } };
+  const errorThree = { status: 404, message: { message: 'missing auth token' } };
+  if (id.length !== 24) throw errorOne;
+  const getRecipeById = await recipe.getRecipesByIdMod(id);
+  if (!getRecipeById) throw errorTwo;
+  if (getRecipeById.userId !== userId && role !== 'admin') throw errorThree;
+};
+
 module.exports = {
   newRecipeServ,
   getRecipesServ,
   getRecipesByIdServ,
   updateRecipesByIdServ,
+  deleteRecipesByIdServ,
 };

@@ -36,9 +36,16 @@ const updateRecipesByIdMod = async (body, id) => {
   return recipe;
 };
 
+const deleteRecipesByIdMod = async (id) => {
+  const connect = await connection();
+  await connect.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports = {
   newRecipeMod,
   getRecipesMod,
   getRecipesByIdMod,
   updateRecipesByIdMod,
+  deleteRecipesByIdMod,
 };

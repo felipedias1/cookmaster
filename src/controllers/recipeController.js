@@ -47,9 +47,22 @@ const updateRecipesByIdController = async (req, res, next) => {
   }
 };
 
+const deleteRecipesByIdController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { _id: userId, role } = req.user;
+    await recipe.deleteRecipesByIdServ(id, userId, role);
+    return res.status(204).json();
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   newRecipeController,
   getRecipesController,
   getRecipesByIdController,
   updateRecipesByIdController,
+  deleteRecipesByIdController,
 };
