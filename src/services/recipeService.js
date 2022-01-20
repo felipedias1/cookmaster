@@ -28,7 +28,16 @@ const getRecipesServ = async () => {
   return getAllRecipes;
 };
 
+const getRecipesByIdServ = async (id) => {
+  const error = { status: 404, message: { message: 'recipe not found' } };
+  if (id.length !== 24) throw error;
+  const getRecipeById = await recipe.getRecipesByIdMod(id);
+  if (!getRecipeById) throw error;
+  return getRecipeById;
+};
+
 module.exports = {
   newRecipeServ,
   getRecipesServ,
+  getRecipesByIdServ,
 };

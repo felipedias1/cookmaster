@@ -23,7 +23,19 @@ const getRecipesController = async (_req, res, next) => {
   }
 };
 
+const getRecipesByIdController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const recipeById = await recipe.getRecipesByIdServ(id);
+    return res.status(200).json(recipeById);
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   newRecipeController,
   getRecipesController,
+  getRecipesByIdController,
 };
