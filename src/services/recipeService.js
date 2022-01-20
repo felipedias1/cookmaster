@@ -23,6 +23,12 @@ const newRecipeServ = async (name, ingredients, preparation, userId) => {
   return newRecipe;
 };
 
+const getRecipesServ = async () => {
+  const getAllRecipes = await recipe.getRecipesMod();
+  return getAllRecipes;
+};
+
 module.exports = {
   newRecipeServ,
+  getRecipesServ,
 };

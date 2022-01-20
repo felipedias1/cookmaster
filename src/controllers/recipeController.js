@@ -13,6 +13,17 @@ const newRecipeController = async (req, res, next) => {
   }
 };
 
+const getRecipesController = async (_req, res, next) => {
+  try {
+    const allRecipes = await recipe.getRecipesServ();
+    return res.status(200).json(allRecipes);
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   newRecipeController,
+  getRecipesController,
 };
