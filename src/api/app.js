@@ -14,6 +14,7 @@ app.post('/users', user.newProductController);
 app.post('/login', login.login);
 app.post('/recipes', auth, recipe.newRecipeController);
 app.get('/recipes/:id', recipe.getRecipesByIdController);
+app.put('/recipes/:id', auth, recipe.updateRecipesByIdController);
 app.get('/recipes', recipe.getRecipesController);
 
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
