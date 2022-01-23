@@ -44,7 +44,6 @@ const updateRecipesByIdServ = async (body, id, userId, role) => {
   validateFields(body, id);
   const errorOne = { status: 404, message: { message: 'recipe not found' } };
   const errorTwo = { status: 404, message: { message: 'missing auth token' } };
-  console.log(role);
   const getRecipeById = await recipe.getRecipesByIdMod(id);
   if (!getRecipeById) throw errorOne;
   if (getRecipeById.userId !== userId && role !== 'admin') throw errorTwo;
@@ -63,10 +62,23 @@ const deleteRecipesByIdServ = async (id, userId, role) => {
   if (getRecipeById.userId !== userId && role !== 'admin') throw errorThree;
 };
 
+const addRecipeImageServ = async (id, filename, role, userId) => {
+  const error = { status: 404, message: { message: 'Invalid entries. Try again.' } };
+  /* const errorTwo = { status: 404, message: { message: 'recipe not found' } }; */
+  const getRecipe = await recipe.getRecipesByIdMod(id);
+  console.log(getRecipe);
+  if (id.length !== 24) throw error;
+  if (!getRecipe) throw error;
+  if (getRecipe.userId !== userId && role !== 'admin') throw error;
+  const recipeWithImage = await recipe.addRecipeImageMod(filename, id);
+  return recipeWithImage;
+};
+
 module.exports = {
   newRecipeServ,
   getRecipesServ,
   getRecipesByIdServ,
   updateRecipesByIdServ,
   deleteRecipesByIdServ,
+  addRecipeImageServ,
 };

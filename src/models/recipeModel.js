@@ -16,7 +16,6 @@ const newRecipeMod = async (name, ingredients, preparation, userId) => {
 const getRecipesMod = async () => {
   const connect = await connection();
   const recipes = await connect.collection('recipes').find().toArray();
-  console.log(recipes);
   return recipes;
 };
 
@@ -42,10 +41,21 @@ const deleteRecipesByIdMod = async (id) => {
     .deleteOne({ _id: ObjectId(id) });
 };
 
+const addRecipeImageMod = async (filename, id) => {
+  const connect = await connection();
+  await connect.collection('recipes')
+    .updateOne(
+      { _id: ObjectId(id) }, { $set: { image: `localhost:3000/src/uploads/${filename}` } },
+    );
+  const recipe = getRecipesByIdMod(id);
+  return recipe;
+};
+
 module.exports = {
   newRecipeMod,
   getRecipesMod,
   getRecipesByIdMod,
   updateRecipesByIdMod,
   deleteRecipesByIdMod,
+  addRecipeImageMod,
 };

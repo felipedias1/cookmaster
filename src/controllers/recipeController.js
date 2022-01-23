@@ -59,10 +59,24 @@ const deleteRecipesByIdController = async (req, res, next) => {
   }
 };
 
+const addRecipeImage = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const { _id: userId, role } = req.user;
+    const recipeData = await recipe.addRecipeImageServ(id, filename, role, userId);
+    return res.status(200).json(recipeData);
+  } catch (error) {
+    console.log(error.message);
+    return next(error);
+  }
+};
+
 module.exports = {
   newRecipeController,
   getRecipesController,
   getRecipesByIdController,
   updateRecipesByIdController,
   deleteRecipesByIdController,
+  addRecipeImage,
 };
